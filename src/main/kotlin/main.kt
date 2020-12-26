@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Suppress("EXPERIMENTAL_API_USAGE")
-fun main() = Window(title = "Well, figures") {
+fun main() = Window(title = "Well, course work") {
     MaterialTheme(
             shapes = Shapes(RoundedCornerShape(0.dp), RoundedCornerShape(0.dp), RoundedCornerShape(0.dp)),
             colors = MaterialTheme.colors.copy(
@@ -19,7 +19,6 @@ fun main() = Window(title = "Well, figures") {
                     onPrimary = Color.Black
             )
     ) {
-
         AppWindowAmbient.current?.events?.onOpen = {
             try {
 
