@@ -1,4 +1,4 @@
-rootProject.name = "OOP_6"
+rootProject.name = "course_work"
 
 pluginManagement {
     repositories {
@@ -6,4 +6,4 @@ pluginManagement {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
-include("figures")
+include("books")

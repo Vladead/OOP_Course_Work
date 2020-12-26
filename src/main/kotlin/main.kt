@@ -8,6 +8,7 @@ import androidx.compose.material.Shapes
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 
 @Suppress("EXPERIMENTAL_API_USAGE")
@@ -49,7 +50,9 @@ fun main() = Window(title = "Well, course work") {
                             scrollState = stateVertical
                     ) {
                         Column {
+                            Box {
 
+                            }
 
                         }
                     }
