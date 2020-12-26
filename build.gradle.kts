@@ -6,8 +6,8 @@ plugins {
     id("org.jetbrains.compose") version "0.2.0-build132"
 }
 
-group = "me.vlad"
-version = "1.0-SNAPSHOT"
+group = "us.vlads"
+version = "5.3"
 
 repositories {
     mavenCentral()
