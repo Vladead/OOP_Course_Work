@@ -23,7 +23,9 @@ fun main() = Window(title = "Well, course work") {
         colors = MaterialTheme.colors.copy(
             primary = Color(80, 50, 50),
             onPrimary = Color.Black,
-            background = Color(80, 80, 80)
+            background = Color(80, 80, 80),
+            surface = Color(80,80,80),
+            isLight = false
         )
     ) {
         AppWindowAmbient.current?.events?.onOpen = {
