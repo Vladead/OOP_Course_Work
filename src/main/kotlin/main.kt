@@ -24,7 +24,7 @@ fun main() = Window(title = "Well, course work") {
             primary = Color(80, 50, 50),
             onPrimary = Color.Black,
             background = Color(80, 80, 80),
-            surface = Color(80,80,80),
+            surface = Color(80, 80, 80),
             isLight = false
         )
     ) {
@@ -58,11 +58,9 @@ fun main() = Window(title = "Well, course work") {
                     State.UserError -> {
                         createUserErrorWindow(state)
                     }
+                    State.Administrator,
                     State.User -> {
-                        createUserWindow(state)
-                    }
-                    State.Administrator -> {
-                        createAdministratorWindow()
+                        createMainMenu(state)
                     }
                 }
             }
@@ -70,7 +68,7 @@ fun main() = Window(title = "Well, course work") {
     }
 }
 
-enum class State (access: Boolean) {
+enum class State(val access: Boolean) {
     Login(false),
     User(false),
     UserLogin(false),
@@ -84,11 +82,6 @@ fun createUserButton(state: MutableState<State>) {
         onClick = { state.value = State.UserLogin }) {
         Text("Пользователь")
     }
-}
-
-@Composable
-fun createUserWindow(state: MutableState<State>) {
-    Text("В разработке", fontSize = 20.sp)
 }
 
 @Composable
@@ -127,7 +120,7 @@ fun createUserLoginWindow(state: MutableState<State>) {
 fun createUserErrorWindow(state: MutableState<State>) {
     Text("Ты не туда зашел, ♂fucking slave♂", fontSize = 20.sp)
     Button(modifier = Modifier.width(300.dp),
-        onClick = { state.value = State.UserLogin }) {
+        onClick = { state.value = State.Login }) {
         Text("Назад")
     }
 }
@@ -141,6 +134,26 @@ fun createAdministratorButton(state: MutableState<State>) {
 }
 
 @Composable
-fun createAdministratorWindow() {
-    Text("Добро пожаловать, ♂boss of this gym♂", fontSize = 20.sp)
+
+fun createMainMenu(state: MutableState<State>) {
+    Row {
+        Column(
+            modifier = Modifier.fillMaxHeight().border(1.dp, Color(20, 20, 20)),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Button(onClick = {}, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
+                    Text("Скрижали")
+                }
+                if (state.value.access)
+                Button(onClick = {}, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
+                    Text("Школяры")
+                }
+            }
+            Button(onClick = {state.value = State.Login}, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
+                Text("Бегство")
+            }
+        }
+        UIBookList(state)
+    }
 }

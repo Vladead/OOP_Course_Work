@@ -7,6 +7,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -18,36 +19,37 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun UIBookList(/*Some kinda user*/) {
-    //TODO("Make user do this instead of direct call.")
-    val books = BooksCatalogue.getMutableInstance()// for now
-    val isAdmin = true // for now
+fun UIBookList(state: MutableState<State>) {
+    val books = BooksCatalogue.getMutableInstance()
+    val isAdmin = state.value.access
 
     val vertScroll = rememberScrollState()
     val selected = remember { mutableStateOf<Int?>(null) }
-    val viewSummoned = remember { mutableStateOf(false)}
+    val viewSummoned = remember { mutableStateOf(false) }
     Box() {
-        Row(modifier = Modifier.align(Alignment.TopStart).padding(bottom = if (isAdmin) 150.dp else 50.dp)) {
+        Row(
+            modifier = Modifier.align(Alignment.TopStart).padding(bottom = if (isAdmin) 150.dp else 50.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             ScrollableColumn(
-                modifier = Modifier.fillMaxWidth().border(1.dp, Color(20,20,20)),
+                modifier = Modifier.fillMaxWidth().padding(end = 12.dp).border(1.dp, Color(20, 20, 20)),
                 scrollState = vertScroll,
-                contentPadding = PaddingValues(0.dp, 0.dp, 0.dp, 0.dp),
+                contentPadding = PaddingValues(0.dp, 0.dp, 12.dp, 0.dp),
                 horizontalAlignment = Alignment.Start
             ) {
                 repeat(50) {
                     Box(
-                        modifier = Modifier.fillMaxWidth().preferredSize(40.dp,40.dp).border(2.dp, Color.DarkGray)
+                        modifier = Modifier.fillMaxWidth().preferredSize(40.dp, 40.dp).border(2.dp, Color.DarkGray)
                             .background(if (it == selected.value) Color.DarkGray else MaterialTheme.colors.background)
                             .selectable(
                                 selected = (it == selected.value),
                                 onClick = { selected.value = it })
                     ) {
-                        Text("${it}")
+                        Text("${it+1}")
                     }
                 }
             }
             VerticalScrollbar(adapter = ScrollbarAdapter(vertScroll))
-
         }
         Column(
             Modifier.align(Alignment.BottomStart).fillMaxWidth(),
@@ -55,12 +57,12 @@ fun UIBookList(/*Some kinda user*/) {
         ) {
             Button(
                 modifier = Modifier.fillMaxWidth().preferredSize(300.dp, 50.dp),
-                onClick = {viewSummoned.value = true},
+                onClick = { viewSummoned.value = true },
                 enabled = (selected.value != null)
             ) {
                 Text("О сём писании")
             }
-            if (isAdmin /*admin*/) {
+            if (isAdmin) {
                 Button(
                     modifier = Modifier.fillMaxWidth().preferredSize(300.dp, 50.dp),
                     onClick = {},
@@ -77,7 +79,7 @@ fun UIBookList(/*Some kinda user*/) {
     }
 
     if (viewSummoned.value) {
-        UIBookView(null, onDismissRequest = {viewSummoned.value = false}, {})
+        UIBookView(null, onDismissRequest = { viewSummoned.value = false }, {})
     }
 }
 
