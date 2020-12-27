@@ -14,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.*
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 fun main() = Window(title = "Well, course work") {
@@ -134,26 +133,32 @@ fun createAdministratorButton(state: MutableState<State>) {
 }
 
 @Composable
-
 fun createMainMenu(state: MutableState<State>) {
+    val menuState = remember { mutableStateOf(mainMenuState.Books) }
     Row {
         Column(
-            modifier = Modifier.fillMaxHeight().border(1.dp, Color(20, 20, 20)),
+            modifier = Modifier.fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-                Button(onClick = {}, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
+                Button(onClick = {menuState.value = mainMenuState.Books}, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
                     Text("Скрижали")
                 }
                 if (state.value.access)
-                Button(onClick = {}, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
-                    Text("Школяры")
-                }
+                    Button(onClick = {menuState.value = mainMenuState.Users}, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
+                        Text("Школяры")
+                    }
             }
-            Button(onClick = {state.value = State.Login}, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
+            Button(onClick = { state.value = State.Login }, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
                 Text("Бегство")
             }
         }
-        UIBookList(state)
+        when (menuState.value) {
+            mainMenuState.Books ->
+                UIBookList(state)
+            mainMenuState.Users -> {
+
+            }
+        }
     }
 }

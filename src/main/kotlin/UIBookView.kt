@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Shapes
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,9 +19,15 @@ import androidx.compose.ui.graphics.imageFromResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun UIBookView(book: BookCopy?, onDismissRequest: () -> Unit, onAddTransaction: () -> Unit) {
+fun UIBookView(
+    book: BookCopy?,
+    state: MutableState<State>,
+    onDismissRequest: () -> Unit,
+    onAddTransaction: () -> Unit,
+    onViewTransactions: () -> Unit
+) {
     val isFirst = mutableStateOf(true)
-    val isAdmin = true
+    val isAdmin = state.value.access
     Window(onDismissRequest = onDismissRequest) {
         MaterialTheme(
             shapes = Shapes(RoundedCornerShape(0.dp), RoundedCornerShape(0.dp), RoundedCornerShape(0.dp)),
@@ -57,9 +64,18 @@ fun UIBookView(book: BookCopy?, onDismissRequest: () -> Unit, onAddTransaction: 
                             Text("${book?.authors}")
                         }
                         Text("${book?.description}")
+                        Spacer(Modifier.padding(bottom = 10.dp))
                         if (isAdmin)
-                            Button(modifier = Modifier.padding(bottom = 10.dp), onClick = onAddTransaction) {
-                                Text("Дополнить легенду")
+                            Column(
+                                modifier = Modifier.padding(bottom = 10.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Button(onClick = onViewTransactions, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
+                                    Text("Изучить легенды")
+                                }
+                                Button(onClick = onAddTransaction, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
+                                    Text("Дополнить легенду")
+                                }
                             }
                     }
                 }

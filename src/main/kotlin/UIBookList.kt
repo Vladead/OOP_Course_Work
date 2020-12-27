@@ -1,5 +1,3 @@
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.desktop.AppWindowAmbient
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
@@ -13,9 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.WithConstraints
-import androidx.compose.ui.selection.SimpleLayout
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -39,19 +34,20 @@ fun UIBookList(state: MutableState<State>) {
                 repeat(50) {
                     Box(
                         modifier = Modifier.fillMaxWidth().preferredSize(40.dp, 40.dp).border(2.dp, Color.DarkGray)
-                            .background(if (it == selected.value) Color.DarkGray else MaterialTheme.colors.background)
                             .selectable(
                                 selected = (it == selected.value),
                                 onClick = { selected.value = it })
+                            .background(if (it == selected.value) Color.DarkGray else MaterialTheme.colors.background)
+                            .padding(start = 5.dp)
                     ) {
-                        Text("${it+1}")
+                        Text("${it + 1}")
                     }
                 }
             }
             VerticalScrollbar(modifier = Modifier.align(Alignment.TopEnd), adapter = ScrollbarAdapter(vertScroll))
         }
         Column(
-            Modifier.align(Alignment.BottomStart).fillMaxWidth(),
+            Modifier.align(Alignment.BottomStart).fillMaxWidth().border(1.dp, Color(20,20,20)),
             horizontalAlignment = Alignment.Start
         ) {
             Button(
@@ -78,7 +74,7 @@ fun UIBookList(state: MutableState<State>) {
     }
 
     if (viewSummoned.value) {
-        UIBookView(null, onDismissRequest = { viewSummoned.value = false }, {})
+        UIBookView(null, state, onDismissRequest = { viewSummoned.value = false }, onAddTransaction = {}) {}
     }
 }
 
