@@ -63,11 +63,9 @@ fun main() = Window(title = "Well, course work") {
                     State.UserError -> {
                         UserErrorWindow(state)
                     }
+                    State.Administrator,
                     State.User -> {
-                        UserWindow(state)
-                    }
-                    State.Administrator -> {
-                        AdministratorWindow()
+                        MainMenu(state)
                     }
                 }
             }

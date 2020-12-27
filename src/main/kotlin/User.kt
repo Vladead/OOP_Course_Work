@@ -44,7 +44,6 @@ fun UserLoginWindow(state: MutableState<State>) {
             }) {
             Text("Войти")
         }
-        val correctName = ""
         if (checkUserName.value)
             if (Users.getImmutableInstance().contains(userName)) {
                 state.value = State.User
