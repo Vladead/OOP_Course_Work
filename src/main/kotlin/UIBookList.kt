@@ -27,14 +27,13 @@ fun UIBookList(state: MutableState<State>) {
     val selected = remember { mutableStateOf<Int?>(null) }
     val viewSummoned = remember { mutableStateOf(false) }
     Box() {
-        Row(
-            modifier = Modifier.align(Alignment.TopStart).padding(bottom = if (isAdmin) 150.dp else 50.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+        Box(
+            modifier = Modifier.align(Alignment.TopStart).padding(bottom = if (isAdmin) 150.dp else 50.dp)
         ) {
             ScrollableColumn(
-                modifier = Modifier.fillMaxWidth().padding(end = 12.dp).border(1.dp, Color(20, 20, 20)),
+                modifier = Modifier.fillMaxWidth().padding(end = 8.dp).border(1.dp, Color(20, 20, 20)),
                 scrollState = vertScroll,
-                contentPadding = PaddingValues(0.dp, 0.dp, 12.dp, 0.dp),
+                contentPadding = PaddingValues(0.dp, 0.dp, 0.dp, 0.dp),
                 horizontalAlignment = Alignment.Start
             ) {
                 repeat(50) {
@@ -49,7 +48,7 @@ fun UIBookList(state: MutableState<State>) {
                     }
                 }
             }
-            VerticalScrollbar(adapter = ScrollbarAdapter(vertScroll))
+            VerticalScrollbar(modifier = Modifier.align(Alignment.TopEnd), adapter = ScrollbarAdapter(vertScroll))
         }
         Column(
             Modifier.align(Alignment.BottomStart).fillMaxWidth(),
