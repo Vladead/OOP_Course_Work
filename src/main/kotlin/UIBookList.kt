@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun UIBookList(/*Some kinda user*/) {
     //TODO("Make user do this instead of direct call.")
-    val books = BooksCatalogue.GetMutableInstance()// for now
+    val books = BooksCatalogue.getMutableInstance()// for now
     val isAdmin = true // for now
 
     val vertScroll = rememberScrollState()

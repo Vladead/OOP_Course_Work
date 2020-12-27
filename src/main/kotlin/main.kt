@@ -112,7 +112,7 @@ fun createUserLoginWindow(state: MutableState<State>) {
             }) {
             Text("Войти")
         }
-        val correctName = "performance artist"
+        val correctName = ""
         if (checkUserName.value)
             if (userName.value == correctName) {
                 state.value = State.User
