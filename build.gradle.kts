@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
-    implementation(project(":books"))
+    implementation(project(":libraryData"))
 
     testImplementation(kotlin("test-junit5"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")

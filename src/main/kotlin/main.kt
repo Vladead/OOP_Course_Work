@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -14,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.*
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 fun main() = Window(title = "Well, course work") {
@@ -24,19 +21,27 @@ fun main() = Window(title = "Well, course work") {
             primary = Color(80, 50, 50),
             onPrimary = Color.Black,
             background = Color(80, 80, 80),
-            surface = Color(80,80,80),
+            surface = Color(80, 80, 80),
             isLight = false
         )
     ) {
         AppWindowAmbient.current?.events?.onOpen = {
             try {
-
+                var tempCatalogue = BooksCatalogue.getMutableInstance()
+                tempCatalogue = BooksCatalogue.decodeToMutableList("booksCatalogue.library");
             } catch (exception: Exception) {
-                println("File not found")
+                println("Books file not found")
+            }
+            try {
+                var tempUsers = Users.getMutableInstance()
+                tempUsers = Users.decodeToMutableList("usersList.users")
+            } catch (exception: Exception) {
+                println("Users file not found")
             }
         }
         AppWindowAmbient.current?.events?.onClose = {
-            // TODO написать сериализацию
+            BooksCatalogue.encodeToFile("booksCatalogue.library", BooksCatalogue.getImmutableInstance())
+            Users.encodeToFile("usersList.users", Users.getImmutableInstance())
         }
 
         val state = remember { mutableStateOf(State.Login) }
@@ -48,99 +53,24 @@ fun main() = Window(title = "Well, course work") {
             ) {
                 when (state.value) {
                     State.Login -> {
-                        Text("Хто я?", fontSize = 100.sp)
-                        createUserButton(state)
-                        createAdministratorButton(state)
+                        Text("Хто я?", fontSize = 50.sp)
+                        UserButton(state)
+                        AdministratorButton(state)
                     }
                     State.UserLogin -> {
-                        createUserLoginWindow(state)
+                        UserLoginWindow(state)
                     }
                     State.UserError -> {
-                        createUserErrorWindow(state)
+                        UserErrorWindow(state)
                     }
                     State.User -> {
-                        createUserWindow(state)
+                        UserWindow(state)
                     }
                     State.Administrator -> {
-                        createAdministratorWindow()
+                        AdministratorWindow()
                     }
                 }
             }
         }
     }
-}
-
-enum class State (access: Boolean) {
-    Login(false),
-    User(false),
-    UserLogin(false),
-    UserError(false),
-    Administrator(true)
-}
-
-@Composable
-fun createUserButton(state: MutableState<State>) {
-    Button(modifier = Modifier.width(300.dp),
-        onClick = { state.value = State.UserLogin }) {
-        Text("Пользователь")
-    }
-}
-
-@Composable
-fun createUserWindow(state: MutableState<State>) {
-    Text("В разработке", fontSize = 20.sp)
-}
-
-@Composable
-fun createUserLoginWindow(state: MutableState<State>) {
-    Column(
-        Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        val userName = remember { mutableStateOf("") }
-        DataInputRow("Имя", userName.value, onValueChange = { str ->
-            run {
-                userName.value = str
-            }
-        })
-
-        val checkUserName = remember { mutableStateOf(false) }
-        Button(modifier = Modifier.fillMaxWidth(),
-            onClick = {
-                checkUserName.value = true
-            }) {
-            Text("Войти")
-        }
-        val correctName = ""
-        if (checkUserName.value)
-            if (userName.value == correctName) {
-                state.value = State.User
-            } else {
-                checkUserName.value = false
-                state.value = State.UserError
-            }
-    }
-}
-
-@Composable
-fun createUserErrorWindow(state: MutableState<State>) {
-    Text("Ты не туда зашел, ♂fucking slave♂", fontSize = 20.sp)
-    Button(modifier = Modifier.width(300.dp),
-        onClick = { state.value = State.UserLogin }) {
-        Text("Назад")
-    }
-}
-
-@Composable
-fun createAdministratorButton(state: MutableState<State>) {
-    Button(modifier = Modifier.width(300.dp),
-        onClick = { state.value = State.Administrator }) {
-        Text("Администратор")
-    }
-}
-
-@Composable
-fun createAdministratorWindow() {
-    Text("Добро пожаловать, ♂boss of this gym♂", fontSize = 20.sp)
 }
