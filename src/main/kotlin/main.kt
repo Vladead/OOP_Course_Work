@@ -14,11 +14,12 @@ import androidx.compose.ui.unit.dp
 @Suppress("EXPERIMENTAL_API_USAGE")
 fun main() = Window(title = "Well, course work") {
     MaterialTheme(
-            shapes = Shapes(RoundedCornerShape(0.dp), RoundedCornerShape(0.dp), RoundedCornerShape(0.dp)),
-            colors = MaterialTheme.colors.copy(
-                    primary = Color(80, 50, 50),
-                    onPrimary = Color.Black
-            )
+        shapes = Shapes(RoundedCornerShape(0.dp), RoundedCornerShape(0.dp), RoundedCornerShape(0.dp)),
+        colors = MaterialTheme.colors.copy(
+            primary = Color(80, 50, 50),
+            onPrimary = Color.Black,
+            background = Color(80, 80, 80)
+        )
     ) {
         AppWindowAmbient.current?.events?.onOpen = {
             try {
@@ -32,22 +33,23 @@ fun main() = Window(title = "Well, course work") {
         }
         Box(Modifier.background(Color(80, 80, 80))) {
             Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                Column(Modifier.fillMaxHeight(),
-                        Arrangement.spacedBy(0.dp, Alignment.Top),
-                        Alignment.CenterHorizontally
+                Column(
+                    Modifier.fillMaxHeight(),
+                    Arrangement.spacedBy(0.dp, Alignment.Top),
+                    Alignment.CenterHorizontally
                 ) {
 
                 }
                 Box(
-                        modifier = Modifier.fillMaxHeight()
-                                .background(color = Color(120, 120, 120))
-                                .padding(10.dp)
+                    modifier = Modifier.fillMaxHeight()
+                        .background(color = Color(120, 120, 120))
+                        .padding(10.dp)
                 ) {
                     val stateVertical = rememberScrollState(0f)
 
                     ScrollableColumn(
-                            modifier = Modifier.fillMaxHeight(),
-                            scrollState = stateVertical
+                        modifier = Modifier.fillMaxHeight(),
+                        scrollState = stateVertical
                     ) {
                         Column {
                             Box {
@@ -57,9 +59,9 @@ fun main() = Window(title = "Well, course work") {
                         }
                     }
                     VerticalScrollbar(
-                            modifier = Modifier.align(Alignment.CenterEnd)
-                                    .fillMaxHeight(),
-                            adapter = rememberScrollbarAdapter(stateVertical)
+                        modifier = Modifier.align(Alignment.CenterEnd)
+                            .fillMaxHeight(),
+                        adapter = rememberScrollbarAdapter(stateVertical)
                     )
                 }
             }
