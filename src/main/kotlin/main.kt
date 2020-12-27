@@ -18,7 +18,9 @@ fun main() = Window(title = "Well, course work") {
         colors = MaterialTheme.colors.copy(
             primary = Color(80, 50, 50),
             onPrimary = Color.Black,
-            background = Color(80, 80, 80)
+            background = Color(80, 80, 80),
+            surface = Color(80,80,80),
+            isLight = false
         )
     ) {
         AppWindowAmbient.current?.events?.onOpen = {
@@ -31,40 +33,8 @@ fun main() = Window(title = "Well, course work") {
         AppWindowAmbient.current?.events?.onClose = {
             // TODO написать сериализацию
         }
-        Box(Modifier.background(Color(80, 80, 80))) {
-            Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                Column(
-                    Modifier.fillMaxHeight(),
-                    Arrangement.spacedBy(0.dp, Alignment.Top),
-                    Alignment.CenterHorizontally
-                ) {
-
-                }
-                Box(
-                    modifier = Modifier.fillMaxHeight()
-                        .background(color = Color(120, 120, 120))
-                        .padding(10.dp)
-                ) {
-                    val stateVertical = rememberScrollState(0f)
-
-                    ScrollableColumn(
-                        modifier = Modifier.fillMaxHeight(),
-                        scrollState = stateVertical
-                    ) {
-                        Column {
-                            Box {
-
-                            }
-
-                        }
-                    }
-                    VerticalScrollbar(
-                        modifier = Modifier.align(Alignment.CenterEnd)
-                            .fillMaxHeight(),
-                        adapter = rememberScrollbarAdapter(stateVertical)
-                    )
-                }
-            }
+        Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background)) {
+            UIBookList()
         }
     }
 }
