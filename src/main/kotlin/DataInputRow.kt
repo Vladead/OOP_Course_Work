@@ -11,14 +11,16 @@ import androidx.compose.ui.text.input.KeyboardType
 
 @Composable
 fun DataInputRow(name: String, curValue: String, onValueChange: (String) -> Unit) {
-    Row(Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Text(name)
         TextField(curValue,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                onValueChange = onValueChange,
-                placeholder = { Text("Value") }
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = onValueChange,
+            placeholder = { Text("Value") }
         )
     }
 }

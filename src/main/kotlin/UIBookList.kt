@@ -6,7 +6,7 @@ import androidx.compose.ui.Alignment
 @Composable
 fun UIBookList(/*Some kinda user*/) {
     //TODO("Make user do this instead of direct call.")
-    val books = BooksCatalogue.GetMutableInstance()// for now
+    val books = BooksCatalogue.getMutableInstance()// for now
 
 
 }

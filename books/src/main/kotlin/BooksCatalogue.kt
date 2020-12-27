@@ -1,11 +1,11 @@
 object BooksCatalogue {
     private val catalogue = mutableListOf<BookCopy>()
 
-    fun GetImmutableInstance(): List<BookCopy> {
+    fun getImmutableInstance(): List<BookCopy> {
         return catalogue.toList()
     }
 
-    fun GetMutableInstance(): List<BookCopy> {
+    fun getMutableInstance(): List<BookCopy> {
         return catalogue
     }
 }
