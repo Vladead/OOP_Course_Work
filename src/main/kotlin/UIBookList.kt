@@ -16,7 +16,7 @@ fun UIBookList(state: MutableState<State>) {
     val filteredBooks = remember { mutableStateListOf<BookCopy>() }
     val isAdmin = state.value.access
 
-    val isFirst = remember{ mutableStateOf(true) }
+    val isFirst = remember { mutableStateOf(true) }
     val vertScroll = rememberScrollState()
     val selection = remember { mutableStateOf<Int?>(null) }
     val nameFilter = remember { mutableStateOf("") }
@@ -25,7 +25,7 @@ fun UIBookList(state: MutableState<State>) {
     val addDialog = remember { mutableStateOf(false) }
 
     if (isFirst.value) {
-        filteredBooks+=books
+        filteredBooks += books
         isFirst.value = false
     }
 
@@ -121,7 +121,9 @@ fun UIBookList(state: MutableState<State>) {
     }
 
     if (viewOpened.value) {
-        UIBookView(null, state, onDismissRequest = { viewOpened.value = false }, onAddTransaction = {}) {}
+        UIBookView(filteredBooks[selection.value!!],
+            state,
+            onDismissRequest = { viewOpened.value = false })
     }
 
     if (addDialog.value) {

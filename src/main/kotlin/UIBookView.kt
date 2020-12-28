@@ -1,13 +1,10 @@
 import androidx.compose.desktop.AppWindowAmbient
 import androidx.compose.desktop.Window
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.DropdownMenu
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Shapes
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -15,18 +12,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.imageFromResource
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import org.jetbrains.skija.Image
+import java.io.File
 
 @Composable
 fun UIBookView(
-    book: BookCopy?,
+    book: BookCopy,
     state: MutableState<State>,
-    onDismissRequest: () -> Unit,
-    onAddTransaction: () -> Unit,
-    onViewTransactions: () -> Unit
+    onDismissRequest: () -> Unit
 ) {
     val isFirst = mutableStateOf(true)
+    val path = File(System.getProperty("user.dir") + "\\Images" + "\\${book.imagePath}")
     val isAdmin = state.value.access
     Window(onDismissRequest = onDismissRequest) {
         MaterialTheme(
@@ -34,8 +34,8 @@ fun UIBookView(
             colors = AppMaterialScheme.Colors
         ) {
             if (isFirst.value) {
-                AppWindowAmbient.current?.setTitle("Скрижали - ${book?.name}")
-                AppWindowAmbient.current?.setSize(600, 400)
+                AppWindowAmbient.current?.setTitle("Скрижаль - ${book.name}")
+                AppWindowAmbient.current?.setSize(800, 400)
                 isFirst.value = false
             }
             Box(Modifier.background(MaterialTheme.colors.surface).fillMaxSize()) {
@@ -45,31 +45,30 @@ fun UIBookView(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
-                        imageFromResource("zone_archive.png"),
-                        modifier = Modifier.border(2.dp, Color.DarkGray).padding(20.dp)
+                        Image.makeFromEncoded(path.readBytes()).asImageBitmap(),
+                        modifier = Modifier.padding(20.dp).border(2.dp, Color.Black).sizeIn(maxWidth = 500.dp)
                     )
-                    Column(
-                        modifier = Modifier.fillMaxHeight().preferredSize(800.dp, 800.dp),
-                        verticalArrangement = Arrangement.SpaceBetween,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                    Box(
+                        modifier = Modifier.fillMaxHeight().preferredSize(800.dp, 800.dp)
                     ) {
-                        Column(modifier = Modifier.padding(top = 10.dp)) {
-                            Text("${book?.name}")
-                            Text("${book?.authors}")
+                        Column(modifier = Modifier.align(Alignment.TopStart)
+                            .padding(top = 10.dp, end = 10.dp, start = 10.dp, bottom = if (isAdmin) 90.dp else 20.dp)) {
+                            Text(book.name, fontSize = 20.sp)
+                            Text(book.authors, fontSize = 20.sp)
+                            Box(Modifier.border(1.dp, MaterialTheme.colors.secondary)) {
+                                val scrollState = rememberScrollState()
+                                ScrollableColumn(scrollState = scrollState) {
+                                    Text(book.description, modifier = Modifier.padding(start = 3.dp).fillMaxSize())
+                                }
+                                VerticalScrollbar(modifier = Modifier.align(Alignment.TopEnd),
+                                    adapter = ScrollbarAdapter(scrollState))
+                            }
                         }
-                        Text("${book?.description}")
-                        Spacer(Modifier.padding(bottom = 10.dp))
                         if (isAdmin)
-                            Column(
-                                modifier = Modifier.padding(bottom = 10.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Button(onClick = onViewTransactions, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
-                                    Text("Изучить легенды")
-                                }
-                                Button(onClick = onAddTransaction, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
-                                    Text("Дополнить легенду")
-                                }
+                            Button(onClick = { },
+                                modifier = Modifier.preferredSize(300.dp, 70.dp).padding(bottom = 20.dp)
+                                    .align(Alignment.BottomCenter)) {
+                                Text("Изучить легенды")
                             }
                     }
                 }
