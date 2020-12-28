@@ -36,7 +36,7 @@ fun main() = Window(title = "Well, course work") {
             Users.encodeToFile("usersList.users", Users.getImmutableInstance())
         }
 
-        val state = remember { mutableStateOf(State.Login) }
+        val state = remember { mutableStateOf(State.MainMenu) }
         Box(Modifier.background(MaterialTheme.colors.surface)) {
             Column(
                 Modifier.fillMaxSize(),

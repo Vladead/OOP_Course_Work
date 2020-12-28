@@ -1,10 +1,9 @@
 import androidx.compose.desktop.AppWindowAmbient
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Shapes
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -18,15 +17,18 @@ import androidx.compose.ui.window.Dialog
 import java.io.File
 
 @Composable
-fun FileChooserDiolog(onDismissFun: () -> Unit, directory: File, windowName: String = "Choose file") {
+fun FileChooserDiolog(
+    onDismissFun: () -> Unit,
+    directory: File,
+    windowName: String = "Choose file",
+    selectedFile: MutableState<File?>
+) {
     val isFirst = mutableStateOf(true)
+    val selection = mutableStateOf<File?>(null)
     Dialog(onDismissRequest = onDismissFun) {
         MaterialTheme(
-            shapes = Shapes(RoundedCornerShape(0.dp), RoundedCornerShape(0.dp), RoundedCornerShape(0.dp)),
-            colors = MaterialTheme.colors.copy(
-                primary = Color(80, 50, 50),
-                onPrimary = Color.Black
-            )
+            shapes = AppMaterialScheme.Shapes,
+            colors = AppMaterialScheme.Colors
         ) {
             if (isFirst.value) {
                 AppWindowAmbient.current?.setTitle(windowName)
@@ -38,7 +40,10 @@ fun FileChooserDiolog(onDismissFun: () -> Unit, directory: File, windowName: Str
                     Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceBetween) {
                         Button(modifier = Modifier.preferredWidth(200.dp).padding(top = 5.dp, bottom = 5.dp),
                             onClick = {
-
+                                if (selection.value != null) {
+                                    selectedFile.value = selection.value
+                                    onDismissFun()
+                                }
                             }) {
                             Text("Выбрать")
                         }
@@ -57,12 +62,21 @@ fun FileChooserDiolog(onDismissFun: () -> Unit, directory: File, windowName: Str
                             val listOfFiles = directory.listFiles()
                             if (listOfFiles.isNotEmpty()) {
                                 for (file in listOfFiles)
-                                    ListElement(file.name)
+                                    Box(
+                                        modifier = Modifier.fillMaxWidth().preferredSize(40.dp, 40.dp)
+                                            .border(2.dp, MaterialTheme.colors.secondary)
+                                            .selectable(
+                                                selected = (file == selection.value),
+                                                onClick = { selection.value = file })
+                                            .background(if (file == selection.value) MaterialTheme.colors.secondary else MaterialTheme.colors.background)
+                                            .padding(start = 5.dp),
+                                        contentAlignment = Alignment.CenterStart
+                                    ) {
+                                        Text(file.name)
+                                    }
                             } else
                                 Box(Modifier.fillMaxWidth())
-
                         }
-
                         VerticalScrollbar(
                             modifier = Modifier.align(Alignment.CenterEnd)
                                 .fillMaxHeight(),
@@ -72,14 +86,13 @@ fun FileChooserDiolog(onDismissFun: () -> Unit, directory: File, windowName: Str
                 }
             }
         }
-
     }
 }
 
 @Composable
-fun FileChooserButton(state: MutableState<State>, BaseFolder: File) {
+fun FileChooserButton(BaseFolder: File, selectedFile: MutableState<File?>) {
     val isChoosingFile = remember { mutableStateOf(false) }
-    Button(modifier = Modifier.width(300.dp),
+    Button(modifier = Modifier.fillMaxWidth(),
         onClick = {
             isChoosingFile.value = true
         }) {
@@ -88,7 +101,8 @@ fun FileChooserButton(state: MutableState<State>, BaseFolder: File) {
     if (isChoosingFile.value) {
         FileChooserDiolog(
             onDismissFun = { isChoosingFile.value = false },
-            BaseFolder
+            BaseFolder,
+            selectedFile = selectedFile
         )
     }
 }
