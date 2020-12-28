@@ -34,22 +34,24 @@ fun UIBookList(state: MutableState<State>) {
                 Modifier.preferredSize(300.dp, 60.dp),
                 "Поиск писания",
                 curValue = nameFilter.value,
-                onValueChange = {
-                    nameFilter.value = it
-                    filteredBooks.clear()
-                    filteredBooks += books.filter { it.name.contains(nameFilter.value, true) }
-                        .filter { it.name.contains(authorFilter.value, true) }
-                })
+                singleLine = true
+            ) {
+                nameFilter.value = it
+                filteredBooks.clear()
+                filteredBooks += books.filter { it.name.contains(nameFilter.value, true) }
+                    .filter { it.name.contains(authorFilter.value, true) }
+            }
             DataInputRow(
                 Modifier.preferredSize(300.dp, 60.dp),
                 "Поиск писца",
                 curValue = authorFilter.value,
-                onValueChange = {
-                    authorFilter.value = it
-                    filteredBooks.clear()
-                    filteredBooks += books.filter { it.name.contains(nameFilter.value, true) }
-                        .filter { it.name.contains(authorFilter.value, true) }
-                })
+                singleLine = true
+            ) {
+                authorFilter.value = it
+                filteredBooks.clear()
+                filteredBooks += books.filter { it.name.contains(nameFilter.value, true) }
+                    .filter { it.name.contains(authorFilter.value, true) }
+            }
         }
         Box() {
             Box(

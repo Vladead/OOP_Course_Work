@@ -37,7 +37,8 @@ fun AddUserDialog(
                     DataInputRow(
                         name = "Имя школяра",
                         curValue = userName.value,
-                        onValueChange = { userName.value = it })
+                        singleLine = true
+                    ) { userName.value = it }
                     Row(horizontalArrangement = Arrangement.SpaceAround) {
                         Button(onClick = {
                             onConfirm(userName.value)

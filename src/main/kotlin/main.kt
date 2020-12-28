@@ -44,9 +44,10 @@ fun main() = Window(title = "Well, course work") {
             ) {
                 when (state.value) {
                     State.Login -> {
-                        Text("Хто я?", fontSize = 50.sp)
+                        Text("Cast in the name of God", fontSize = 50.sp)
                         UserButton(state)
                         AdministratorButton(state)
+                        Text("Ye not guilty", fontSize = 50.sp)
                     }
                     State.UserLogin -> {
                         UserLoginWindow(state)
