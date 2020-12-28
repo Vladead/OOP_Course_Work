@@ -2,28 +2,19 @@ import androidx.compose.desktop.AppWindowAmbient
 import androidx.compose.desktop.Window
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 fun main() = Window(title = "Well, course work") {
     MaterialTheme(
-        shapes = Shapes(RoundedCornerShape(0.dp), RoundedCornerShape(0.dp), RoundedCornerShape(0.dp)),
-        colors = MaterialTheme.colors.copy(
-            primary = Color(80, 50, 50),
-            onPrimary = Color.Black,
-            background = Color(80, 80, 80),
-            surface = Color(80, 80, 80),
-            isLight = false
-        )
+        shapes = AppMaterialScheme.Shapes,
+        colors = AppMaterialScheme.Colors
     ) {
         AppWindowAmbient.current?.events?.onOpen = {
             try {
@@ -45,7 +36,7 @@ fun main() = Window(title = "Well, course work") {
         }
 
         val state = remember { mutableStateOf(State.Login) }
-        Box(Modifier.background(Color(80, 80, 80))) {
+        Box(Modifier.background(MaterialTheme.colors.surface)) {
             Column(
                 Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,

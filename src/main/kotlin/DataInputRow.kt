@@ -8,19 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
 
 @Composable
-fun DataInputRow(name: String, curValue: String, onValueChange: (String) -> Unit) {
-    Row(
-        Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(name)
+fun DataInputRow(modifier: Modifier = Modifier, name: String, curValue: String, onValueChange: (String) -> Unit) {
         TextField(curValue,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = modifier,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             onValueChange = onValueChange,
-            placeholder = { Text("Value") }
+            placeholder = { },
+            singleLine = true,
+            label = { Text(name) }
         )
-    }
 }

@@ -3,6 +3,7 @@ import kotlinx.serialization.cbor.Cbor
 import kotlinx.serialization.decodeFromHexString
 import kotlinx.serialization.encodeToHexString
 import java.io.File
+import java.lang.IllegalArgumentException
 
 object Users {
     private val users = mutableListOf<String>()
@@ -13,6 +14,17 @@ object Users {
 
     fun getMutableInstance(): MutableList<String> {
         return users
+    }
+
+    fun addUser(name: String) {
+        users.add(name)
+    }
+
+    fun removeUserAt(index: Int) {
+        if (index < 0 ||
+            index >= users.size
+        ) throw ArrayIndexOutOfBoundsException()
+        else users.removeAt(index)
     }
 
     @ExperimentalSerializationApi

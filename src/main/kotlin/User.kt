@@ -31,12 +31,10 @@ fun UserLoginWindow(state: MutableState<State>) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val userName = remember { mutableStateOf("") }
-        DataInputRow("Имя", userName.value, onValueChange = { str ->
-            run {
-                userName.value = str
-            }
-        })
-
+        DataInputRow(Modifier.fillMaxWidth() ,"Имя", userName.value) { str ->
+            run { userName.value = str }
+        }
+        Spacer(Modifier.padding(bottom = 2.dp))
         val checkUserName = remember { mutableStateOf(false) }
         Button(modifier = Modifier.fillMaxWidth(),
             onClick = {
