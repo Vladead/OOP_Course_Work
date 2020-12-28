@@ -22,9 +22,7 @@ import androidx.compose.ui.unit.dp
 fun UIBookView(
     book: BookCopy?,
     state: MutableState<State>,
-    onDismissRequest: () -> Unit,
-    onAddTransaction: () -> Unit,
-    onViewTransactions: () -> Unit
+    onDismissRequest: () -> Unit
 ) {
     val isFirst = mutableStateOf(true)
     val isAdmin = state.value.access
@@ -64,12 +62,9 @@ fun UIBookView(
                                 modifier = Modifier.padding(bottom = 10.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                Button(onClick = onViewTransactions, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
-                                    Text("Изучить легенды")
-                                }
-                                Button(onClick = onAddTransaction, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
-                                    Text("Дополнить легенду")
-                                }
+//                                Button(onClick = onViewTransactions, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
+//                                    Text("Изучить легенды")
+//                                }
                             }
                     }
                 }

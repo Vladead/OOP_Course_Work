@@ -21,6 +21,8 @@ fun UIBookList(state: MutableState<State>) {
     val vertScroll = rememberScrollState()
     val selection = remember { mutableStateOf<Int?>(null) }
     val viewOpened = remember { mutableStateOf(false) }
+    val addingTransaction = remember { mutableStateOf(false) }
+    val lookingTransactions = remember { mutableStateOf(false) }
     val nameFilter = remember { mutableStateOf("") }
     val authorFilter = remember { mutableStateOf("") }
 
@@ -99,7 +101,7 @@ fun UIBookList(state: MutableState<State>) {
                 if (isAdmin) {
                     Button(
                         modifier = Modifier.fillMaxWidth().preferredSize(300.dp, 50.dp),
-                        onClick = {},
+                        onClick = { addingTransaction.value = true },
                         enabled = (selection.value != null)
                     ) {
                         Text("Дополнить легенду")
@@ -114,7 +116,11 @@ fun UIBookList(state: MutableState<State>) {
     }
 
     if (viewOpened.value) {
-        UIBookView(null, state, onDismissRequest = { viewOpened.value = false }, onAddTransaction = {}) {}
+        UIBookView(null, state, onDismissRequest = { viewOpened.value = false })
+    }
+
+    if (addingTransaction.value) {
+        TransactionAddDiolog(onDismissFun = { addingTransaction.value = false })
     }
 }
 

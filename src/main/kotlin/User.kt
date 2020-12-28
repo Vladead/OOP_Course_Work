@@ -51,14 +51,6 @@ fun UserLoginWindow(state: MutableState<State>) {
             }) {
             Text("В главное меню")
         }
-
-        val BaseFolder = File(System.getProperty("user.dir") + "\\Images")
-        val selectedFile = remember { mutableStateOf<File?>(null) }
-        FileChooserButton(BaseFolder, selectedFile)
-
-        if (selectedFile.value != null) {
-            println("Оно блять работает!" + selectedFile.value)
-        }
     }
 }
 

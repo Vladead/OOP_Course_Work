@@ -2,7 +2,7 @@ import kotlinx.serialization.Serializable
 import java.util.*
 
 @Serializable
-data class BookHistory(
+data class TransactionHistory(
     val comment: String,
     @Serializable(with = CalendarAsLongSerializer::class)
     val date: Calendar,

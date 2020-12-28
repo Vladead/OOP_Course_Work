@@ -3,11 +3,11 @@ import java.util.*
 
 @Serializable
 data class BookCopy(val name: String, val authors: Collection<String>, val image: ByteArray, val description: String) {
-    private val transactionHistory = mutableListOf<BookHistory>()
+    private val transactionHistory = mutableListOf<TransactionHistory>()
 
-    fun getLastTransaction(): BookHistory = transactionHistory.first()
+    fun getLastTransaction(): TransactionHistory = transactionHistory.first()
 
-    fun getAllTransaction(): List<BookHistory> = transactionHistory.toList()
+    fun getAllTransaction(): List<TransactionHistory> = transactionHistory.toList()
 
     fun addNewTransaction(
         comment: String,
@@ -17,7 +17,7 @@ data class BookCopy(val name: String, val authors: Collection<String>, val image
     ) =
         transactionHistory.add(
             0,
-            BookHistory(
+            TransactionHistory(
                 comment,
                 date,
                 status,
