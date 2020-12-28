@@ -40,7 +40,10 @@ fun FileChooserDiolog(
                     Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceBetween) {
                         Button(modifier = Modifier.preferredWidth(200.dp).padding(top = 5.dp, bottom = 5.dp),
                             onClick = {
-                                if (selection.value != null) {
+                                if (selection.value != null && (selection.value!!.extension == "jpg" ||
+                                            selection.value!!.extension == "png" ||
+                                            selection.value!!.extension == "bmp")
+                                ) {
                                     selectedFile.value = selection.value
                                     onDismissFun()
                                 }
