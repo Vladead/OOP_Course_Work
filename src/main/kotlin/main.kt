@@ -20,13 +20,13 @@ fun main() = Window(title = "Well, course work") {
         AppWindowAmbient.current?.events?.onOpen = {
             try {
                 var tempCatalogue = BooksCatalogue.getMutableInstance()
-                tempCatalogue = BooksCatalogue.decodeToMutableList("booksCatalogue.library");
+                tempCatalogue.addAll(BooksCatalogue.decodeToMutableList("booksCatalogue.library"))
             } catch (exception: Exception) {
                 println("Books file not found")
             }
             try {
                 var tempUsers = Users.getMutableInstance()
-                tempUsers = Users.decodeToMutableList("usersList.users")
+                tempUsers.addAll(Users.decodeToMutableList("usersList.users"))
             } catch (exception: Exception) {
                 println("Users file not found")
             }
@@ -45,9 +45,10 @@ fun main() = Window(title = "Well, course work") {
             ) {
                 when (state.value) {
                     State.MainMenu -> {
-                        Text("Хто я?", fontSize = 50.sp)
+                        Text("Cast in the name of God", fontSize = 50.sp)
                         UserButton(state)
                         AdministratorButton(state)
+                        Text("Ye not guilty", fontSize = 50.sp)
                     }
                     State.UserLogin -> {
                         UserLoginWindow(state)

@@ -13,7 +13,7 @@ import java.io.File
 
 @Composable
 fun UserButton(state: MutableState<State>) {
-    Button(modifier = Modifier.width(300.dp),
+    Button(modifier = Modifier.preferredSize(300.dp, 50.dp),
         onClick = { state.value = State.UserLogin }) {
         Text("Пользователь")
     }
@@ -27,25 +27,25 @@ fun UserLoginWindow(state: MutableState<State>) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val userName = remember { mutableStateOf("") }
-        DataInputRow(Modifier.fillMaxWidth() ,"Имя", userName.value) { str ->
+        DataInputRow(Modifier.preferredSize(300.dp, 60.dp), "Имя", userName.value, true) { str ->
             run { userName.value = str }
         }
         Spacer(Modifier.padding(bottom = 2.dp))
         val checkUserName = remember { mutableStateOf(false) }
-        Button(modifier = Modifier.fillMaxWidth(),
+        Button(modifier = Modifier.preferredSize(300.dp, 50.dp),
             onClick = {
                 checkUserName.value = true
             }) {
             Text("Войти")
         }
         if (checkUserName.value)
-            if (Users.getImmutableInstance().contains(userName)) {
+            if (Users.getImmutableInstance().contains(userName.value)) {
                 state.value = State.User
             } else {
                 checkUserName.value = false
                 state.value = State.UserError
             }
-        Button(modifier = Modifier.fillMaxWidth(),
+        Button(modifier = Modifier.preferredSize(300.dp, 50.dp),
             onClick = {
                 state.value = State.MainMenu
             }) {
@@ -58,7 +58,7 @@ fun UserLoginWindow(state: MutableState<State>) {
 fun UserErrorWindow(state: MutableState<State>) {
     Text("Ты не туда зашел, ♂fucking slave♂", fontSize = 20.sp)
     Button(modifier = Modifier.width(300.dp),
-        onClick = { state.value = State.UserLogin }) {
+        onClick = { state.value = State.MainMenu }) {
         Text("Назад")
     }
 }

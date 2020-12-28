@@ -2,7 +2,7 @@ import kotlinx.serialization.Serializable
 import java.util.*
 
 @Serializable
-data class BookCopy(val name: String, val authors: Collection<String>, val image: ByteArray, val description: String) {
+data class BookCopy(val name: String, val authors: String, val imagePath: String, val description: String) {
     private val transactionHistory = mutableListOf<TransactionHistory>()
 
     fun getLastTransaction(): TransactionHistory = transactionHistory.first()

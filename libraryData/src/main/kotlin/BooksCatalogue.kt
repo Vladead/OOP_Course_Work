@@ -15,6 +15,10 @@ object BooksCatalogue {
         return catalogue
     }
 
+    fun addCopy(book: BookCopy) {
+        catalogue.add(book)
+    }
+
     @ExperimentalSerializationApi
     fun decodeToMutableList(nameOfFile: String): MutableList<BookCopy> {
         File(nameOfFile).reader().use {

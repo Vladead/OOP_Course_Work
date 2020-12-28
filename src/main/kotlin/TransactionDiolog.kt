@@ -78,6 +78,7 @@ fun TransactionViewDiolog(
 @Composable
 fun TransactionAddDiolog(
     onDismissFun: () -> Unit,
+    transactionHistory: MutableList<TransactionHistory>,
     windowName: String = "Choose file"
 ) {
     val isFirst = mutableStateOf(true)
@@ -93,12 +94,19 @@ fun TransactionAddDiolog(
             }
             Box(Modifier.background(Color(80, 80, 80))) {
                 Row(horizontalArrangement = Arrangement.Start) {
-                    Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceBetween) {
+                    Column(modifier = Modifier.fillMaxHeight()) {
                         Button(modifier = Modifier.preferredWidth(200.dp),
                             onClick = {
                                 onDismissFun()
                             }) {
                             Text("Назад")
+                        }
+                        Button(modifier = Modifier.preferredWidth(200.dp),
+                        onClick = {
+
+                        }
+                        ) {
+                            Text("Добавить")
                         }
                     }
                     Column(modifier = Modifier.fillMaxHeight()) {
@@ -111,7 +119,10 @@ fun TransactionAddDiolog(
                         val userName = remember { mutableStateOf("") }
                         DropdownMenu(
                             toggle = {
-                                Button({ menuExpanded.value = !menuExpanded.value }, modifier = Modifier.fillMaxWidth()) {
+                                Button(
+                                    { menuExpanded.value = !menuExpanded.value },
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
                                     Text("${bookStatus.value}")
                                 }
                             },
@@ -143,27 +154,32 @@ fun TransactionAddDiolog(
                                 Text("${BookStatus.COMING_SOON}")
                             }
                         }
-                        DataInputRow(Modifier.fillMaxWidth(), "День", day.value) { str ->
+                        DataInputRow(Modifier.fillMaxWidth(), "День", day.value, singleLine = true) { str ->
                             run {
                                 day.value = str
                             }
                         }
-                        DataInputRow(Modifier.fillMaxWidth(), "Месяц", month.value) { str ->
+                        DataInputRow(Modifier.fillMaxWidth(), "Месяц", month.value, singleLine = true) { str ->
                             run {
                                 month.value = str
                             }
                         }
-                        DataInputRow(Modifier.fillMaxWidth(), "Год", year.value) { str ->
+                        DataInputRow(Modifier.fillMaxWidth(), "Год", year.value, singleLine = true) { str ->
                             run {
                                 year.value = str
                             }
                         }
-                        DataInputRow(Modifier.fillMaxWidth(), "Имя пользователя", userName.value) { str ->
+                        DataInputRow(
+                            Modifier.fillMaxWidth(),
+                            "Имя пользователя",
+                            userName.value,
+                            singleLine = true
+                        ) { str ->
                             run {
                                 userName.value = str
                             }
                         }
-                        DataInputRow(Modifier.fillMaxWidth(), "Комментарий", comment.value) { str ->
+                        DataInputRow(Modifier.fillMaxWidth(), "Комментарий", comment.value, singleLine = true) { str ->
                             run {
                                 comment.value = str
                             }
