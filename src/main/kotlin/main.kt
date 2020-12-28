@@ -19,13 +19,13 @@ fun main() = Window(title = "Well, course work") {
         AppWindowAmbient.current?.events?.onOpen = {
             try {
                 var tempCatalogue = BooksCatalogue.getMutableInstance()
-                tempCatalogue = BooksCatalogue.decodeToMutableList("booksCatalogue.library");
+                tempCatalogue.addAll(BooksCatalogue.decodeToMutableList("booksCatalogue.library"))
             } catch (exception: Exception) {
                 println("Books file not found")
             }
             try {
                 var tempUsers = Users.getMutableInstance()
-                tempUsers = Users.decodeToMutableList("usersList.users")
+                tempUsers.addAll(Users.decodeToMutableList("usersList.users"))
             } catch (exception: Exception) {
                 println("Users file not found")
             }

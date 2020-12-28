@@ -19,11 +19,6 @@ fun UserButton(state: MutableState<State>) {
 }
 
 @Composable
-fun UserWindow(state: MutableState<State>) {
-    Text("В разработке", fontSize = 20.sp)
-}
-
-@Composable
 fun UserLoginWindow(state: MutableState<State>) {
     Column(
         Modifier.fillMaxSize(),
@@ -43,7 +38,7 @@ fun UserLoginWindow(state: MutableState<State>) {
             Text("Войти")
         }
         if (checkUserName.value)
-            if (Users.getImmutableInstance().contains(userName)) {
+            if (Users.getImmutableInstance().contains(userName.value)) {
                 state.value = State.User
             } else {
                 checkUserName.value = false
@@ -56,7 +51,7 @@ fun UserLoginWindow(state: MutableState<State>) {
 fun UserErrorWindow(state: MutableState<State>) {
     Text("Ты не туда зашел, ♂fucking slave♂", fontSize = 20.sp)
     Button(modifier = Modifier.width(300.dp),
-        onClick = { state.value = State.UserLogin }) {
+        onClick = { state.value = State.Login }) {
         Text("Назад")
     }
 }
