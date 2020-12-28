@@ -1,3 +1,4 @@
+import androidx.compose.foundation.layout.preferredSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -9,7 +10,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun AdministratorButton(state: MutableState<State>) {
-    Button(modifier = Modifier.width(300.dp),
+    Button(modifier = Modifier.preferredSize(300.dp, 50.dp),
         onClick = { state.value = State.Administrator }) {
         Text("Администратор")
     }

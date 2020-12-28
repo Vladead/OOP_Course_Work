@@ -13,7 +13,7 @@ import java.io.File
 
 @Composable
 fun UserButton(state: MutableState<State>) {
-    Button(modifier = Modifier.width(300.dp),
+    Button(modifier = Modifier.preferredSize(300.dp, 50.dp),
         onClick = { state.value = State.UserLogin }) {
         Text("Пользователь")
     }
@@ -27,7 +27,7 @@ fun UserLoginWindow(state: MutableState<State>) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val userName = remember { mutableStateOf("") }
-        DataInputRow(Modifier.fillMaxWidth(), "Имя", userName.value, true) { str ->
+        DataInputRow(Modifier.preferredSize(300.dp, 60.dp), "Имя", userName.value, true) { str ->
             run { userName.value = str }
         }
         Spacer(Modifier.padding(bottom = 2.dp))
@@ -45,19 +45,11 @@ fun UserLoginWindow(state: MutableState<State>) {
                 checkUserName.value = false
                 state.value = State.UserError
             }
-        Button(modifier = Modifier.fillMaxWidth(),
+        Button(modifier = Modifier.preferredSize(300.dp, 50.dp),
             onClick = {
                 state.value = State.MainMenu
             }) {
             Text("В главное меню")
-        }
-
-        val BaseFolder = File(System.getProperty("user.dir") + "\\Images")
-        val selectedFile = remember { mutableStateOf<File?>(null) }
-        FileChooserButton(BaseFolder, selectedFile)
-
-        if (selectedFile.value != null) {
-            println("Оно блять работает!" + selectedFile.value)
         }
     }
 }
@@ -66,7 +58,7 @@ fun UserLoginWindow(state: MutableState<State>) {
 fun UserErrorWindow(state: MutableState<State>) {
     Text("Ты не туда зашел, ♂fucking slave♂", fontSize = 20.sp)
     Button(modifier = Modifier.width(300.dp),
-        onClick = { state.value = State.Login }) {
+        onClick = { state.value = State.MainMenu }) {
         Text("Назад")
     }
 }

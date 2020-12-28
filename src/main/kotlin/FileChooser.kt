@@ -17,11 +17,11 @@ import androidx.compose.ui.window.Dialog
 import java.io.File
 
 @Composable
-fun FileChooserDiolog(
+fun FileChooserDialog(
     onDismissFun: () -> Unit,
     directory: File,
     windowName: String = "Choose file",
-    selectedFile: MutableState<File?>
+    selectedFile: MutableState<File?>,
 ) {
     val isFirst = mutableStateOf(true)
     val selection = mutableStateOf<File?>(null)
@@ -51,7 +51,6 @@ fun FileChooserDiolog(
                     Box(
                         modifier = Modifier.fillMaxHeight()
                             .background(color = Color(120, 120, 120))
-                            .padding(10.dp)
                     ) {
                         val stateVertical = rememberScrollState(0f)
 
@@ -90,17 +89,25 @@ fun FileChooserDiolog(
 }
 
 @Composable
-fun FileChooserButton(BaseFolder: File, selectedFile: MutableState<File?>) {
+fun FileChooserButton(
+    modifier: Modifier = Modifier.preferredSize(300.dp, 50.dp),
+    BaseFolder: File,
+    selectedFile: MutableState<File?>,
+    onFileChosen: () -> Unit,
+) {
     val isChoosingFile = remember { mutableStateOf(false) }
-    Button(modifier = Modifier.fillMaxWidth(),
+    Button(modifier = modifier,
         onClick = {
             isChoosingFile.value = true
         }) {
         Text("Выбрать файл")
     }
     if (isChoosingFile.value) {
-        FileChooserDiolog(
-            onDismissFun = { isChoosingFile.value = false },
+        FileChooserDialog(
+            onDismissFun = {
+                isChoosingFile.value = false;
+                onFileChosen()
+            },
             BaseFolder,
             selectedFile = selectedFile
         )

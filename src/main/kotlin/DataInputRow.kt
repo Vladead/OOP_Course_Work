@@ -12,7 +12,7 @@ fun DataInputRow(modifier: Modifier = Modifier, name: String, curValue: String, 
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             onValueChange = onValueChange,
             placeholder = { },
-            singleLine = true,
+            singleLine = singleLine,
             label = { Text(name) }
         )
 }

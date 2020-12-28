@@ -12,17 +12,22 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun UIBookList(state: MutableState<State>) {
-    val books =
-        if (state.value.access) BooksCatalogue.getMutableInstance()
-        else BooksCatalogue.getImmutableInstance()
-    val filteredBooks = mutableStateListOf<BookCopy>()
+    val books = BooksCatalogue.getMutableInstance()
+    val filteredBooks = remember { mutableStateListOf<BookCopy>() }
     val isAdmin = state.value.access
 
+    val isFirst = remember{ mutableStateOf(true) }
     val vertScroll = rememberScrollState()
     val selection = remember { mutableStateOf<Int?>(null) }
-    val viewOpened = remember { mutableStateOf(false) }
     val nameFilter = remember { mutableStateOf("") }
     val authorFilter = remember { mutableStateOf("") }
+    val viewOpened = remember { mutableStateOf(false) }
+    val addDialog = remember { mutableStateOf(false) }
+
+    if (isFirst.value) {
+        filteredBooks+=books
+        isFirst.value = false
+    }
 
     Column() {
         Row(
@@ -35,36 +40,36 @@ fun UIBookList(state: MutableState<State>) {
                 "Поиск писания",
                 curValue = nameFilter.value,
                 singleLine = true
-            ) {
-                nameFilter.value = it
+            ) { str ->
+                nameFilter.value = str
                 filteredBooks.clear()
-                filteredBooks += books.filter { it.name.contains(nameFilter.value, true) }
-                    .filter { it.name.contains(authorFilter.value, true) }
+                filteredBooks += books.filter { it.name.contains(nameFilter.value, true) || str.isEmpty() }
+                    .filter { it.authors.contains(authorFilter.value, true) || str.isEmpty() }
             }
             DataInputRow(
                 Modifier.preferredSize(300.dp, 60.dp),
                 "Поиск писца",
                 curValue = authorFilter.value,
                 singleLine = true
-            ) {
-                authorFilter.value = it
+            ) { str ->
+                authorFilter.value = str
                 filteredBooks.clear()
-                filteredBooks += books.filter { it.name.contains(nameFilter.value, true) }
-                    .filter { it.name.contains(authorFilter.value, true) }
+                filteredBooks += books.filter { it.name.contains(nameFilter.value, true) || str.isEmpty() }
+                    .filter { it.authors.contains(authorFilter.value, true) || str.isEmpty() }
             }
         }
         Box() {
             Box(
                 modifier = Modifier.align(Alignment.TopStart).padding(bottom = if (isAdmin) 150.dp else 50.dp)
             ) {
-                if (books.isEmpty()) {
+                if (filteredBooks.isNotEmpty()) {
                     ScrollableColumn(
-                        modifier = Modifier.fillMaxWidth().padding(end = 8.dp).border(1.dp, Color(20, 20, 20)),
+                        modifier = Modifier.fillMaxSize().padding(end = 8.dp).border(1.dp, Color(20, 20, 20)),
                         scrollState = vertScroll,
                         contentPadding = PaddingValues(0.dp, 0.dp, 0.dp, 0.dp),
                         horizontalAlignment = Alignment.Start
                     ) {
-                        repeat(50) {
+                        repeat(filteredBooks.size) {
                             Box(
                                 modifier = Modifier.fillMaxWidth().preferredSize(40.dp, 40.dp)
                                     .border(2.dp, MaterialTheme.colors.secondary)
@@ -75,7 +80,7 @@ fun UIBookList(state: MutableState<State>) {
                                     .padding(start = 5.dp),
                                 contentAlignment = Alignment.CenterStart
                             ) {
-                                Text("${it + 1}")
+                                Text("${filteredBooks[it].name}//${filteredBooks[it].authors}")
                             }
                         }
                     }
@@ -107,7 +112,7 @@ fun UIBookList(state: MutableState<State>) {
                         Text("Дополнить легенду")
                     }
                     Button(modifier = Modifier.fillMaxWidth().preferredSize(300.dp, 50.dp),
-                        onClick = {}) {
+                        onClick = { addDialog.value = true }) {
                         Text("Внести писание")
                     }
                 }
@@ -117,6 +122,13 @@ fun UIBookList(state: MutableState<State>) {
 
     if (viewOpened.value) {
         UIBookView(null, state, onDismissRequest = { viewOpened.value = false }, onAddTransaction = {}) {}
+    }
+
+    if (addDialog.value) {
+        AddBookDialog(onDismissRequest = { addDialog.value = false }, onConfirm = {
+            BooksCatalogue.addCopy(it)
+            addDialog.value = false
+        })
     }
 }
 

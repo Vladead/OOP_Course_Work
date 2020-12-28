@@ -44,7 +44,7 @@ fun main() = Window(title = "Well, course work") {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 when (state.value) {
-                    State.Login -> {
+                    State.MainMenu -> {
                         Text("Cast in the name of God", fontSize = 50.sp)
                         UserButton(state)
                         AdministratorButton(state)
