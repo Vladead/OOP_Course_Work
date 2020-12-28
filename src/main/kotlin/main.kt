@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
+import java.io.File
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 fun main() = Window(title = "Well, course work") {
@@ -35,7 +36,7 @@ fun main() = Window(title = "Well, course work") {
             Users.encodeToFile("usersList.users", Users.getImmutableInstance())
         }
 
-        val state = remember { mutableStateOf(State.Login) }
+        val state = remember { mutableStateOf(State.MainMenu) }
         Box(Modifier.background(MaterialTheme.colors.surface)) {
             Column(
                 Modifier.fillMaxSize(),
