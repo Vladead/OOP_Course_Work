@@ -30,21 +30,15 @@ fun UIBookView(
     val isAdmin = state.value.access
     Window(onDismissRequest = onDismissRequest) {
         MaterialTheme(
-            shapes = Shapes(RoundedCornerShape(0.dp), RoundedCornerShape(0.dp), RoundedCornerShape(0.dp)),
-            colors = MaterialTheme.colors.copy(
-                primary = Color(80, 50, 50),
-                onPrimary = Color.Black,
-                background = Color(80, 80, 80),
-                surface = Color(80, 80, 80),
-                isLight = false
-            )
+            shapes = AppMaterialScheme.Shapes,
+            colors = AppMaterialScheme.Colors
         ) {
             if (isFirst.value) {
                 AppWindowAmbient.current?.setTitle("Скрижали - ${book?.name}")
                 AppWindowAmbient.current?.setSize(600, 400)
                 isFirst.value = false
             }
-            Box(Modifier.background(Color(80, 80, 80)).fillMaxSize()) {
+            Box(Modifier.background(MaterialTheme.colors.surface).fillMaxSize()) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly,

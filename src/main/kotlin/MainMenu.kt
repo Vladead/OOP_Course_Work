@@ -39,7 +39,7 @@ fun MainMenu(state: MutableState<State>) {
             mainMenuState.Books ->
                 UIBookList(state)
             mainMenuState.Users -> {
-
+                UIUserList(state)
             }
         }
     }
