@@ -20,7 +20,7 @@ fun DataInputRow(name: String, curValue: String, onValueChange: (String) -> Unit
         TextField(curValue,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             onValueChange = onValueChange,
-            placeholder = { Text("Value") }
+            placeholder = { Text("Введите...") }
         )
     }
 }

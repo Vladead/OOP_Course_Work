@@ -1,5 +1,5 @@
 enum class State (val access: Boolean) {
-    Login(false),
+    MainMenu(false),
     User(false),
     UserLogin(false),
     UserError(false),

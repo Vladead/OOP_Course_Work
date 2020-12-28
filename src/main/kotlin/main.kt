@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.io.File
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 fun main() = Window(title = "Well, course work") {
@@ -44,7 +45,7 @@ fun main() = Window(title = "Well, course work") {
             Users.encodeToFile("usersList.users", Users.getImmutableInstance())
         }
 
-        val state = remember { mutableStateOf(State.Login) }
+        val state = remember { mutableStateOf(State.MainMenu) }
         Box(Modifier.background(Color(80, 80, 80))) {
             Column(
                 Modifier.fillMaxSize(),
@@ -52,7 +53,7 @@ fun main() = Window(title = "Well, course work") {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 when (state.value) {
-                    State.Login -> {
+                    State.MainMenu -> {
                         Text("Хто я?", fontSize = 50.sp)
                         UserButton(state)
                         AdministratorButton(state)

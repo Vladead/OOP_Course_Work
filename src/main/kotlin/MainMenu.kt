@@ -31,7 +31,7 @@ fun MainMenu(state: MutableState<State>) {
                         Text("Школяры")
                     }
             }
-            Button(onClick = { state.value = State.Login }, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
+            Button(onClick = { state.value = State.MainMenu }, modifier = Modifier.preferredSize(300.dp, 50.dp)) {
                 Text("Бегство")
             }
         }

@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.io.File
 
 @Composable
 fun UserButton(state: MutableState<State>) {
@@ -16,11 +17,6 @@ fun UserButton(state: MutableState<State>) {
         onClick = { state.value = State.UserLogin }) {
         Text("Пользователь")
     }
-}
-
-@Composable
-fun UserWindow(state: MutableState<State>) {
-    Text("В разработке", fontSize = 20.sp)
 }
 
 @Composable
@@ -51,6 +47,22 @@ fun UserLoginWindow(state: MutableState<State>) {
                 checkUserName.value = false
                 state.value = State.UserError
             }
+        Button(modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                state.value = State.MainMenu
+            }) {
+            Text("В главное меню")
+        }
+
+        Button(modifier = Modifier.fillMaxWidth(),
+            onClick = {
+
+            }) {
+            Text("Выбрать файл")
+        }
+
+        val BaseFolder = File(System.getProperty("user.dir") + "\\Images")
+        FileChooserButton(state, BaseFolder)
     }
 }
 
