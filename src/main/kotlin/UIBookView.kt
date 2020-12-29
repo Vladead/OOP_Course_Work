@@ -3,7 +3,6 @@ import androidx.compose.desktop.Window
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
-import androidx.compose.material.DropdownMenu
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -14,7 +13,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.skija.Image
@@ -84,7 +82,7 @@ fun UIBookView(
                                 Text("Изучить легенды")
                             }
                         if (showingTransactionHistory.value) {
-                            TransactionViewDiolog(
+                            TransactionViewDialog(
                                 onDismissFun = { showingTransactionHistory.value = false },
                                 book.getAllTransaction(), windowName = "Легенды"
                             )

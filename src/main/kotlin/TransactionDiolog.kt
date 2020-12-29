@@ -17,7 +17,7 @@ import java.lang.Exception
 import java.util.*
 
 @Composable
-fun TransactionViewDiolog(
+fun TransactionViewDialog(
     onDismissFun: () -> Unit,
     transactionList: List<TransactionHistory>,
     windowName: String = "Choose file"
@@ -80,11 +80,10 @@ fun TransactionViewDiolog(
 }
 
 @Composable
-fun TransactionAddDiolog(
+fun TransactionAddDialog(
     onDismissFun: () -> Unit,
     bookCopy: BookCopy,
-    windowName: String = "Choose file"
-) {
+    windowName: String) {
     val isFirst = mutableStateOf(true)
     val bookStatus = remember { mutableStateOf(BookStatus.AVAILABLE) }
     val year = remember { mutableStateOf("") }
@@ -117,7 +116,7 @@ fun TransactionAddDiolog(
                             onClick = {
                                 val untilDate = Calendar.getInstance(Locale.ENGLISH)
                                 if (bookStatus.value == BookStatus.TAKEN) {
-                                    untilDate.set(year.value.toInt(), month.value.toInt(), day.value.toInt())
+                                    untilDate.set(year.value.toInt(), month.value.toInt()-1, day.value.toInt())
                                 }
                                 bookCopy.addNewTransaction(
                                     comment = comment.value,
@@ -246,7 +245,7 @@ fun checkTransactionData(day: String, month: String, year: String, userName: Str
 
     try {
         val testCalendar = Calendar.getInstance(Locale.ENGLISH)
-        testCalendar.set(tempYear!!, tempMonth!!, tempDay!!)
+        testCalendar.set(tempYear!!, tempMonth!!-1, tempDay!!)
     } catch (e: Exception) {
         return false
     }

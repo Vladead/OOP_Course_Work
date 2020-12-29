@@ -21,7 +21,6 @@ fun UIBookList(state: MutableState<State>) {
     val selection = remember { mutableStateOf<Int?>(null) }
     val viewOpened = remember { mutableStateOf(false) }
     val addingTransaction = remember { mutableStateOf(false) }
-    val lookingTransactions = remember { mutableStateOf(false) }
     val nameFilter = remember { mutableStateOf("") }
     val authorFilter = remember { mutableStateOf("") }
     val addDialog = remember { mutableStateOf(false) }
@@ -129,7 +128,9 @@ fun UIBookList(state: MutableState<State>) {
     }
 
     if (addingTransaction.value) {
-        TransactionAddDiolog(onDismissFun = { addingTransaction.value = false }, filteredBooks[selection.value!!])
+        TransactionAddDialog(onDismissFun = { addingTransaction.value = false },
+            filteredBooks[selection.value!!],
+            windowName = "Хижина летописца")
     }
 
     if (addDialog.value) {
