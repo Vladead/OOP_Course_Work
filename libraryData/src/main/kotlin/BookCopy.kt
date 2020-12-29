@@ -5,7 +5,7 @@ import java.util.*
 data class BookCopy(val name: String, val authors: String, val imagePath: String, val description: String) {
     private val transactionHistory = mutableListOf<TransactionHistory>()
 
-    fun getLastTransaction(): TransactionHistory = transactionHistory.first()
+    fun getLastTransaction(): TransactionHistory? = transactionHistory.firstOrNull()
 
     fun getAllTransaction(): List<TransactionHistory> = transactionHistory.toList()
 
