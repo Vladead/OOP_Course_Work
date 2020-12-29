@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +27,7 @@ fun UIBookView(
     onDismissRequest: () -> Unit
 ) {
     val isFirst = mutableStateOf(true)
+    val showingTransactionHistory = remember { mutableStateOf(false) }
     val path = File(System.getProperty("user.dir") + "\\Images" + "\\${book.imagePath}")
     val isAdmin = state.value.access
     Window(onDismissRequest = onDismissRequest) {
@@ -51,8 +53,15 @@ fun UIBookView(
                     Box(
                         modifier = Modifier.fillMaxHeight().preferredSize(800.dp, 800.dp)
                     ) {
-                        Column(modifier = Modifier.align(Alignment.TopStart)
-                            .padding(top = 10.dp, end = 10.dp, start = 10.dp, bottom = if (isAdmin) 90.dp else 20.dp)) {
+                        Column(
+                            modifier = Modifier.align(Alignment.TopStart)
+                                .padding(
+                                    top = 10.dp,
+                                    end = 10.dp,
+                                    start = 10.dp,
+                                    bottom = if (isAdmin) 90.dp else 20.dp
+                                )
+                        ) {
                             Text(book.name, fontSize = 20.sp)
                             Text(book.authors, fontSize = 20.sp)
                             Box(Modifier.border(1.dp, MaterialTheme.colors.secondary)) {
@@ -60,16 +69,26 @@ fun UIBookView(
                                 ScrollableColumn(scrollState = scrollState) {
                                     Text(book.description, modifier = Modifier.padding(start = 3.dp).fillMaxSize())
                                 }
-                                VerticalScrollbar(modifier = Modifier.align(Alignment.TopEnd),
-                                    adapter = ScrollbarAdapter(scrollState))
+                                VerticalScrollbar(
+                                    modifier = Modifier.align(Alignment.TopEnd),
+                                    adapter = ScrollbarAdapter(scrollState)
+                                )
                             }
                         }
                         if (isAdmin)
-                            Button(onClick = { },
+                            Button(
+                                onClick = { showingTransactionHistory.value = true },
                                 modifier = Modifier.preferredSize(300.dp, 70.dp).padding(bottom = 20.dp)
-                                    .align(Alignment.BottomCenter)) {
+                                    .align(Alignment.BottomCenter)
+                            ) {
                                 Text("Изучить легенды")
                             }
+                        if (showingTransactionHistory.value) {
+                            TransactionViewDiolog(
+                                onDismissFun = { showingTransactionHistory.value = false },
+                                book.getAllTransaction(), windowName = "Легенды"
+                            )
+                        }
                     }
                 }
             }

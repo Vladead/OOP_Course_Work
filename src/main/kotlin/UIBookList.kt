@@ -129,7 +129,7 @@ fun UIBookList(state: MutableState<State>) {
     }
 
     if (addingTransaction.value) {
-        TransactionAddDiolog(onDismissFun = { addingTransaction.value = false })
+        TransactionAddDiolog(onDismissFun = { addingTransaction.value = false }, filteredBooks[selection.value!!])
     }
 
     if (addDialog.value) {

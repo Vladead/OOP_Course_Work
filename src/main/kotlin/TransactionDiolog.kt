@@ -4,13 +4,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import java.lang.Exception
+import java.util.*
 
 @Composable
 fun TransactionViewDiolog(
@@ -78,10 +82,17 @@ fun TransactionViewDiolog(
 @Composable
 fun TransactionAddDiolog(
     onDismissFun: () -> Unit,
-    transactionHistory: MutableList<TransactionHistory>,
+    bookCopy: BookCopy,
     windowName: String = "Choose file"
 ) {
     val isFirst = mutableStateOf(true)
+    val bookStatus = remember { mutableStateOf(BookStatus.AVAILABLE) }
+    val year = remember { mutableStateOf("") }
+    val month = remember { mutableStateOf("") }
+    val day = remember { mutableStateOf("") }
+    val userName = remember { mutableStateOf("") }
+    val comment = remember { mutableStateOf("") }
+
     Dialog(onDismissRequest = onDismissFun) {
         MaterialTheme(
             shapes = AppMaterialScheme.Shapes,
@@ -101,22 +112,37 @@ fun TransactionAddDiolog(
                             }) {
                             Text("Назад")
                         }
-                        Button(modifier = Modifier.preferredWidth(200.dp),
-                        onClick = {
-
-                        }
+                        Button(
+                            modifier = Modifier.preferredWidth(200.dp),
+                            onClick = {
+                                val untilDate = Calendar.getInstance(Locale.ENGLISH)
+                                if (bookStatus.value == BookStatus.TAKEN) {
+                                    untilDate.set(year.value.toInt(), month.value.toInt(), day.value.toInt())
+                                }
+                                bookCopy.addNewTransaction(
+                                    comment = comment.value,
+                                    date = Calendar.getInstance(Locale.ENGLISH),
+                                    status = bookStatus.value,
+                                    userData = if (bookStatus.value == BookStatus.TAKEN) UserTransactionData(
+                                        untilDate,
+                                        userName.value
+                                    ) else null
+                                )
+                                onDismissFun()
+                            },
+                            enabled = (checkTransactionData(
+                                day = day.value,
+                                month = month.value,
+                                year = year.value,
+                                userName = userName.value
+                            ) || bookStatus.value != BookStatus.TAKEN) && comment.value.isNotBlank()
                         ) {
                             Text("Добавить")
                         }
                     }
+
                     Column(modifier = Modifier.fillMaxHeight()) {
                         val menuExpanded = remember { mutableStateOf(false) }
-                        val bookStatus = remember { mutableStateOf(BookStatus.AVAILABLE) }
-                        val year = remember { mutableStateOf("") }
-                        val month = remember { mutableStateOf("") }
-                        val day = remember { mutableStateOf("") }
-                        val comment = remember { mutableStateOf("") }
-                        val userName = remember { mutableStateOf("") }
                         DropdownMenu(
                             toggle = {
                                 Button(
@@ -154,34 +180,56 @@ fun TransactionAddDiolog(
                                 Text("${BookStatus.COMING_SOON}")
                             }
                         }
-                        DataInputRow(Modifier.fillMaxWidth(), "День", day.value, singleLine = true) { str ->
-                            run {
-                                day.value = str
-                            }
-                        }
-                        DataInputRow(Modifier.fillMaxWidth(), "Месяц", month.value, singleLine = true) { str ->
-                            run {
-                                month.value = str
-                            }
-                        }
-                        DataInputRow(Modifier.fillMaxWidth(), "Год", year.value, singleLine = true) { str ->
-                            run {
-                                year.value = str
-                            }
-                        }
-                        DataInputRow(
-                            Modifier.fillMaxWidth(),
-                            "Имя пользователя",
-                            userName.value,
-                            singleLine = true
-                        ) { str ->
-                            run {
-                                userName.value = str
-                            }
-                        }
+
                         DataInputRow(Modifier.fillMaxWidth(), "Комментарий", comment.value, singleLine = true) { str ->
                             run {
                                 comment.value = str
+                            }
+                        }
+
+                        if (bookStatus.value == BookStatus.TAKEN) {
+                            DataInputRow(
+                                Modifier.fillMaxWidth(),
+                                "Имя пользователя",
+                                userName.value,
+                                singleLine = true
+                            ) { str ->
+                                run {
+                                    userName.value = str
+                                }
+                            }
+                            DataInputRow(
+                                Modifier.fillMaxWidth(),
+                                "День",
+                                day.value,
+                                singleLine = true,
+                                keyboardType = KeyboardType.Number
+                            ) { str ->
+                                run {
+                                    day.value = str
+                                }
+                            }
+                            DataInputRow(
+                                Modifier.fillMaxWidth(),
+                                "Месяц",
+                                month.value,
+                                singleLine = true,
+                                keyboardType = KeyboardType.Number
+                            ) { str ->
+                                run {
+                                    month.value = str
+                                }
+                            }
+                            DataInputRow(
+                                Modifier.fillMaxWidth(),
+                                "Год",
+                                year.value,
+                                singleLine = true,
+                                keyboardType = KeyboardType.Number
+                            ) { str ->
+                                run {
+                                    year.value = str
+                                }
                             }
                         }
                     }
@@ -189,6 +237,25 @@ fun TransactionAddDiolog(
             }
         }
     }
+}
+
+fun checkTransactionData(day: String, month: String, year: String, userName: String): Boolean {
+    val tempDay = day.toIntOrNull()
+    val tempMonth = month.toIntOrNull()
+    val tempYear = year.toIntOrNull()
+
+    try {
+        val testCalendar = Calendar.getInstance(Locale.ENGLISH)
+        testCalendar.set(tempYear!!, tempMonth!!, tempDay!!)
+    } catch (e: Exception) {
+        return false
+    }
+
+    if (!Users.getImmutableInstance().contains(userName)) {
+        return false
+    }
+
+    return true
 }
 
 //@Composable

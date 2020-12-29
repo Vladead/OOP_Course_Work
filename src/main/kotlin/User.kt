@@ -27,7 +27,7 @@ fun UserLoginWindow(state: MutableState<State>) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val userName = remember { mutableStateOf("") }
-        DataInputRow(Modifier.preferredSize(300.dp, 60.dp), "Имя", userName.value, true) { str ->
+        DataInputRow(Modifier.preferredSize(300.dp, 60.dp), "Имя", userName.value, singleLine = true) { str ->
             run { userName.value = str }
         }
         Spacer(Modifier.padding(bottom = 2.dp))

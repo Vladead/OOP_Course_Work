@@ -18,7 +18,7 @@ object CalendarAsLongSerializer : KSerializer<Calendar> {
         var code = decoder.decodeLong()
         val toReturn = Calendar.getInstance(Locale.ENGLISH)!!
         toReturn.set(Calendar.YEAR, (code / 10000).toInt())
-        code %= 1000000
+        code %= 10000
         toReturn.set(Calendar.MONTH, (code / 100).toInt())
         code %= 100
         toReturn.set(Calendar.DAY_OF_MONTH, (code).toInt())
