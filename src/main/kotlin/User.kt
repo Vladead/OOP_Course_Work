@@ -56,7 +56,7 @@ fun UserLoginWindow(state: MutableState<State>) {
 
 @Composable
 fun UserErrorWindow(state: MutableState<State>) {
-    Text("Ты не туда зашел, ♂fucking slave♂", fontSize = 20.sp)
+    Text("Тобою выбрана неправильная дверь", fontSize = 20.sp)
     Button(modifier = Modifier.width(300.dp),
         onClick = { state.value = State.MainMenu }) {
         Text("Назад")
