@@ -57,7 +57,7 @@ fun TransactionViewDialog(
                             if (transactionList.isNotEmpty()) {
                                 for (transaction in transactionList)
                                     Box(
-                                        modifier = Modifier.fillMaxWidth().preferredSize(40.dp, 40.dp)
+                                        modifier = Modifier.fillMaxWidth()
                                             .border(2.dp, MaterialTheme.colors.secondary)
                                             .padding(start = 5.dp),
                                         contentAlignment = Alignment.CenterStart
@@ -256,20 +256,3 @@ fun checkTransactionData(day: String, month: String, year: String, userName: Str
 
     return true
 }
-
-//@Composable
-//fun TransactionListButton(transactionList: List<TransactionHistory>) {
-//    val isChoosingFile = remember { mutableStateOf(false) }
-//    Button(modifier = Modifier.fillMaxWidth(),
-//        onClick = {
-//            isChoosingFile.value = true
-//        }) {
-//        Text("Выбрать файл")
-//    }
-//    if (isChoosingFile.value) {
-//        TransactionDiolog(
-//            onDismissFun = { isChoosingFile.value = false },
-//            transactionList
-//        )
-//    }
-//}

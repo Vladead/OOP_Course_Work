@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.dp
 
 object AppMaterialScheme {
     private val AppColors = Colors(
-        primary = Color(120, 50, 50),
+        primary = Color(160, 50, 50),
         onPrimary = Color.Black,
         secondary = Color.DarkGray,
         onSecondary = Color.Black,
@@ -16,7 +16,7 @@ object AppMaterialScheme {
         surface = Color(80, 80, 80),
         onSurface = Color.Black,
         isLight = false,
-        primaryVariant = Color(80, 50, 50),
+        primaryVariant = Color(160, 50, 50),
         secondaryVariant = Color.DarkGray,
         error = Color.Red,
         onError = Color.Black

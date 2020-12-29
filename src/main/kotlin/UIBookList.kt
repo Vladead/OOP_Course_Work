@@ -140,16 +140,3 @@ fun UIBookList(state: MutableState<State>) {
         })
     }
 }
-
-
-@Composable
-fun UIBookListElement(/*Some kinda user*/) {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-        Row(horizontalArrangement = Arrangement.Start) {
-
-        }
-        Row(horizontalArrangement = Arrangement.End) {
-
-        }
-    }
-}

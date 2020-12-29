@@ -1,4 +1,5 @@
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ fun DataInputRow(modifier: Modifier = Modifier, name: String, curValue: String, 
             onValueChange = onValueChange,
             placeholder = { },
             singleLine = singleLine,
-            label = { Text(name) }
+            label = { Text(name) },
+            activeColor = MaterialTheme.colors.primaryVariant
         )
 }

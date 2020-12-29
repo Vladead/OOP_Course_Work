@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import java.lang.Exception
 
 @Composable
 fun UIUserList(state: MutableState<State>) {
@@ -20,12 +21,13 @@ fun UIUserList(state: MutableState<State>) {
     val selection = remember { mutableStateOf<Int?>(null) }
 
     val deleteDialog = remember { mutableStateOf(false) }
+    val viewTakenDialog = remember { mutableStateOf(false) }
     val addDialog = remember { mutableStateOf(false) }
 
     Box() {
         Box(
             modifier = Modifier.align(Alignment.TopStart)
-                .padding(bottom = 100.dp)
+                .padding(bottom = 150.dp)
                 .border(1.dp, Color(20, 20, 20))
         ) {
             if (users.isNotEmpty()) {
@@ -61,7 +63,14 @@ fun UIUserList(state: MutableState<State>) {
         ) {
             Button(
                 modifier = Modifier.fillMaxWidth().preferredSize(300.dp, 50.dp),
-                onClick = {deleteDialog.value = true},
+                onClick = { viewTakenDialog.value = true },
+                enabled = (selection.value != null)
+            ) {
+                Text("Во владении школяра")
+            }
+            Button(
+                modifier = Modifier.fillMaxWidth().preferredSize(300.dp, 50.dp),
+                onClick = { deleteDialog.value = true },
                 enabled = (selection.value != null)
             ) {
                 Text("Изгнать школяра")
@@ -72,6 +81,18 @@ fun UIUserList(state: MutableState<State>) {
             }
 
         }
+    }
+    if (viewTakenDialog.value) {
+        val booksList: List<BookCopy> = try {
+            BooksCatalogue.getImmutableInstance()
+                .filter { it.getLastTransaction()?.user?.username == users[selection.value!!] }
+        } catch (e: Exception) {
+            listOf<BookCopy>()
+        }
+
+        UIViewTakenDialog(onDismissFun = { viewTakenDialog.value = false },
+            booksList,
+            windowName = "Карманы")
     }
 
     if (deleteDialog.value) {
